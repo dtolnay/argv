@@ -32,7 +32,7 @@ use std::ffi::OsStr;
 /// Returns an iterator over command line arguments.
 pub fn iter() -> Iter {
     Iter {
-        platform_specific: crate::r#impl::iter()
+        platform_specific: crate::r#impl::iter(),
     }
 }
 
