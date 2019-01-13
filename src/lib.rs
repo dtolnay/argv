@@ -25,6 +25,8 @@
 //! implements the same API on other platforms as well, such as Windows, but
 //! leaks memory on platforms other than Linux and macOS.
 
+#![doc(html_root_url = "https://docs.rs/argv/0.0.0")]
+
 use std::ffi::OsStr;
 
 /// Returns an iterator over command line arguments.
