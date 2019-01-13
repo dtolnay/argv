@@ -1,4 +1,61 @@
-pub use crate::r#impl::{iter, Iter};
+//! Command line arguments by reference: `Iterator<Item = &'static OsStr>`
+//!
+//! The standard library's [`std::env::args_os`] iterator produces an owned
+//! string (`OsString`) for each argument. In some use cases it can be more
+//! convenient for the arguments to be produced by static reference (`&'static
+//! OsStr`).
+//!
+//! [`std::env::args_os`]: https://doc.rust-lang.org/std/env/fn.args_os.html
+//!
+//! # Examples
+//!
+//! ```
+//! fn main() {
+//!     for arg in argv::iter() {
+//!         // arg is a &'static OsStr.
+//!         println!("{}", arg.to_string_lossy());
+//!     }
+//! }
+//! ```
+//!
+//! # Portability
+//!
+//! This crate is intended to be used on Linux and macOS, on which command line
+//! arguments naturally live for the duration of the program. This crate
+//! implements the same API on other platforms as well, such as Windows, but
+//! leaks memory on platforms other than Linux and macOS.
+
+use std::ffi::OsStr;
+
+/// Returns an iterator over command line arguments.
+pub fn iter() -> Iter {
+    Iter {
+        platform_specific: crate::r#impl::iter()
+    }
+}
+
+/// Iterator over command line arguments.
+pub struct Iter {
+    platform_specific: crate::r#impl::Iter,
+}
+
+impl Iterator for Iter {
+    type Item = &'static OsStr;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.platform_specific.next()
+    }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.platform_specific.size_hint()
+    }
+}
+
+impl ExactSizeIterator for Iter {
+    fn len(&self) -> usize {
+        self.platform_specific.len()
+    }
+}
 
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 mod r#impl {
