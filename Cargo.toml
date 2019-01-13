@@ -1,0 +1,7 @@
+[package]
+name = "argv"
+version = "0.0.0"
+authors = ["David Tolnay <dtolnay@gmail.com>"]
+license = "MIT OR Apache-2.0"
+description = "Command line arguments by reference: `Iterator<Item = &'static OsStr>`"
+edition = "2018"
