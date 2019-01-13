@@ -13,7 +13,7 @@ the arguments to be produced by static reference (`&'static OsStr`).
 
 ```toml
 [dependencies]
-argv = "0.0"
+argv = "0.1"
 ```
 
 ## Example
