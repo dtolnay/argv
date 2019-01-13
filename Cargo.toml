@@ -4,4 +4,7 @@ version = "0.0.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Command line arguments by reference: `Iterator<Item = &'static OsStr>`"
+repository = "https://github.com/dtolnay/argv"
+documentation = "https://docs.rs/argv"
+readme = "README.md"
 edition = "2018"
