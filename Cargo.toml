@@ -8,3 +8,6 @@ repository = "https://github.com/dtolnay/argv"
 documentation = "https://docs.rs/argv"
 readme = "README.md"
 edition = "2018"
+
+[badges]
+travis-ci = { repository = "dtolnay/argv" }
