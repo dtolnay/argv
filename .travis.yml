@@ -9,3 +9,8 @@ os:
   - linux
   - macos
   - windows
+
+matrix:
+  allow_failures:
+    - # https://github.com/dtolnay/argv/issues/1
+      os: macos
