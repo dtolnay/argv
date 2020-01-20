@@ -76,6 +76,7 @@ mod r#impl {
     static CAPTURE: unsafe extern "C" fn(c_int, *const *const c_char) = capture;
 
     #[cfg_attr(target_os = "macos", link_section = "__DATA,__mod_init_func")]
+    #[allow(dead_code)]
     unsafe extern "C" fn capture(argc: c_int, argv: *const *const c_char) {
         ARGC = argc;
         ARGV = argv;
