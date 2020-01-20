@@ -9,7 +9,3 @@ os:
   - linux
   - macos
   - windows
-
-matrix:
-  allow_failures:
-    - os: windows
