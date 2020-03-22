@@ -59,7 +59,7 @@ impl ExactSizeIterator for Iter {
     }
 }
 
-#[cfg(any(target_os = "linux", target_os = "macos"))]
+#[cfg(target_os = "linux")]
 mod r#impl {
     use std::ffi::{CStr, OsStr};
     use std::mem;
@@ -75,6 +75,7 @@ mod r#impl {
     #[used]
     static CAPTURE: unsafe extern "C" fn(c_int, *const *const c_char) = capture;
 
+    // Disabled for now until we investigate https://github.com/dtolnay/argv/issues/1
     #[cfg_attr(target_os = "macos", link_section = "__DATA,__mod_init_func")]
     #[allow(dead_code)]
     unsafe extern "C" fn capture(argc: c_int, argv: *const *const c_char) {
@@ -127,7 +128,7 @@ mod r#impl {
     }
 }
 
-#[cfg(not(any(target_os = "linux", target_os = "macos")))]
+#[cfg(not(target_os = "linux"))]
 mod r#impl {
     use std::env;
     use std::ffi::OsStr;
