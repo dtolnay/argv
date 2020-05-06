@@ -1,7 +1,7 @@
 Command line arguments by reference
 ===================================
 
-[![Build Status](https://api.travis-ci.com/dtolnay/argv.svg?branch=master)](https://travis-ci.com/dtolnay/argv)
+[![Build Status](https://img.shields.io/github/workflow/status/dtolnay/argv/CI/master)](https://github.com/dtolnay/argv/actions?query=branch%3Amaster)
 [![Latest Version](https://img.shields.io/crates/v/argv.svg)](https://crates.io/crates/argv)
 [![Rust Documentation](https://img.shields.io/badge/api-rustdoc-blue.svg)](https://docs.rs/argv)
 
