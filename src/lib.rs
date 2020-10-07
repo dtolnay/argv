@@ -67,7 +67,7 @@ impl ExactSizeIterator for Iter {
     }
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "musl")))]
 mod r#impl {
     use std::ffi::{CStr, OsStr};
     use std::mem;
@@ -136,7 +136,7 @@ mod r#impl {
     }
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(any(not(target_os = "linux"), target_env = "musl"))]
 mod r#impl {
     use std::env;
     use std::ffi::OsStr;
