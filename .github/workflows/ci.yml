@@ -29,3 +29,11 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
       - run: rustup target add x86_64-unknown-linux-musl
       - run: cargo test --target x86_64-unknown-linux-musl
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dtolnay/rust-toolchain@clippy
+      - run: cargo clippy -- -Dclippy::all
