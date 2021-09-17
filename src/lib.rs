@@ -71,10 +71,10 @@ impl ExactSizeIterator for Iter {
 #[cfg(all(target_os = "linux", not(target_env = "musl")))]
 mod r#impl {
     use std::ffi::{CStr, OsStr};
-    use std::mem;
     use std::os::raw::{c_char, c_int};
     use std::os::unix::ffi::OsStrExt;
     use std::ptr;
+    use std::slice;
 
     static mut ARGC: c_int = 0;
     static mut ARGV: *const *const c_char = ptr::null();
@@ -100,74 +100,53 @@ mod r#impl {
 
         // We count on the OS to provide argv for which argv + argc does not
         // overflow.
-        let end = unsafe { argv.offset(argc as isize) };
+        let argv = unsafe { slice::from_raw_parts(argv, argc as usize) };
 
-        Iter { next: argv, end }
+        Iter { inner: argv.iter() }
     }
 
     pub struct Iter {
-        next: *const *const c_char,
-        end: *const *const c_char,
+        inner: slice::Iter<'static, *const c_char>,
     }
 
     impl Iterator for Iter {
         type Item = &'static OsStr;
 
         fn next(&mut self) -> Option<Self::Item> {
-            if self.next == self.end {
-                None
-            } else {
-                let ptr = unsafe { *self.next };
+            self.inner.next().map(|&ptr| {
                 let c_str = unsafe { CStr::from_ptr(ptr) };
-                self.next = unsafe { self.next.offset(1) };
-                Some(OsStr::from_bytes(c_str.to_bytes()))
-            }
+                OsStr::from_bytes(c_str.to_bytes())
+            })
         }
 
         fn size_hint(&self) -> (usize, Option<usize>) {
-            let len = self.len();
-            (len, Some(len))
+            self.inner.size_hint()
         }
     }
 
     impl ExactSizeIterator for Iter {
         fn len(&self) -> usize {
-            (self.end as usize - self.next as usize) / mem::size_of::<*const c_char>()
+            self.inner.len()
         }
     }
 }
 
 #[cfg(any(not(target_os = "linux"), target_env = "musl"))]
 mod r#impl {
-    use std::env;
+    use once_cell::sync::OnceCell;
     use std::ffi::OsStr;
+    use std::{env, iter, slice};
+
+    static ARGV: OnceCell<Vec<&'static OsStr>> = OnceCell::new();
 
     pub fn iter() -> Iter {
-        Iter {
-            args: env::args_os(),
-        }
+        let v = ARGV.get_or_init(|| {
+            env::args_os()
+                .map(|arg| -> &OsStr { Box::leak(arg.into_boxed_os_str()) })
+                .collect()
+        });
+        v.iter().copied()
     }
 
-    pub struct Iter {
-        args: env::ArgsOs,
-    }
-
-    impl Iterator for Iter {
-        type Item = &'static OsStr;
-
-        fn next(&mut self) -> Option<Self::Item> {
-            let arg = self.args.next()?;
-            Some(Box::leak(arg.into_boxed_os_str()))
-        }
-
-        fn size_hint(&self) -> (usize, Option<usize>) {
-            self.args.size_hint()
-        }
-    }
-
-    impl ExactSizeIterator for Iter {
-        fn len(&self) -> usize {
-            self.args.len()
-        }
-    }
+    pub type Iter = iter::Copied<slice::Iter<'static, &'static OsStr>>;
 }
