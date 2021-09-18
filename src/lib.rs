@@ -139,6 +139,10 @@ mod r#impl {
             (self.end as usize - self.next as usize) / mem::size_of::<*const c_char>()
         }
     }
+
+    // Thread safe despite the raw pointers.
+    unsafe impl Send for Iter {}
+    unsafe impl Sync for Iter {}
 }
 
 #[cfg(any(not(target_os = "linux"), target_env = "musl"))]
@@ -183,3 +187,11 @@ mod r#impl {
         }
     }
 }
+
+const _AUTO_TRAITS: () = {
+    fn assert_send<T: Send>() {}
+    fn assert_sync<T: Sync>() {}
+
+    let _ = assert_send::<Iter>;
+    let _ = assert_sync::<Iter>;
+};
