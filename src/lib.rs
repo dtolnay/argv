@@ -183,3 +183,11 @@ mod r#impl {
         }
     }
 }
+
+const _AUTO_TRAITS: () = {
+    fn assert_send<T: Send>() {}
+    fn assert_sync<T: Sync>() {}
+
+    let _ = assert_send::<Iter>;
+    let _ = assert_sync::<Iter>;
+};
