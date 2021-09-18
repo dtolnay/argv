@@ -75,10 +75,10 @@ impl ExactSizeIterator for Iter {
 #[cfg(all(target_os = "linux", not(target_env = "musl")))]
 mod r#impl {
     use std::ffi::{CStr, OsStr};
+    use std::mem;
     use std::os::raw::{c_char, c_int};
     use std::os::unix::ffi::OsStrExt;
     use std::ptr;
-    use std::slice;
 
     static mut ARGC: c_int = 0;
     static mut ARGV: *const *const c_char = ptr::null();
@@ -104,33 +104,39 @@ mod r#impl {
 
         // We count on the OS to provide argv for which argv + argc does not
         // overflow.
-        let argv = unsafe { slice::from_raw_parts(argv, argc as usize) };
+        let end = unsafe { argv.offset(argc as isize) };
 
-        Iter { inner: argv.iter() }
+        Iter { next: argv, end }
     }
 
     pub struct Iter {
-        inner: slice::Iter<'static, *const c_char>,
+        next: *const *const c_char,
+        end: *const *const c_char,
     }
 
     impl Iterator for Iter {
         type Item = &'static OsStr;
 
         fn next(&mut self) -> Option<Self::Item> {
-            self.inner.next().map(|&ptr| {
+            if self.next == self.end {
+                None
+            } else {
+                let ptr = unsafe { *self.next };
                 let c_str = unsafe { CStr::from_ptr(ptr) };
-                OsStr::from_bytes(c_str.to_bytes())
-            })
+                self.next = unsafe { self.next.offset(1) };
+                Some(OsStr::from_bytes(c_str.to_bytes()))
+            }
         }
 
         fn size_hint(&self) -> (usize, Option<usize>) {
-            self.inner.size_hint()
+            let len = self.len();
+            (len, Some(len))
         }
     }
 
     impl ExactSizeIterator for Iter {
         fn len(&self) -> usize {
-            self.inner.len()
+            (self.end as usize - self.next as usize) / mem::size_of::<*const c_char>()
         }
     }
 }
