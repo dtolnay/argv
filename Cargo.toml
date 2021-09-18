@@ -11,7 +11,3 @@ edition = "2018"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
-
-# keep in sync with catch-all cfg in lib.rs
-[target.'cfg(any(not(target_os = "linux"), target_env = "musl"))'.dependencies]
-once_cell = "1.8"
