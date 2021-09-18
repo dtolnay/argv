@@ -34,7 +34,11 @@
 //! leaks memory on platforms other than Linux and macOS.
 
 #![doc(html_root_url = "https://docs.rs/argv/0.1.3")]
-#![allow(clippy::must_use_candidate, clippy::similar_names)]
+#![allow(
+    clippy::cast_sign_loss,
+    clippy::must_use_candidate,
+    clippy::similar_names
+)]
 
 use std::ffi::OsStr;
 
