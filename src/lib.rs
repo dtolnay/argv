@@ -145,7 +145,7 @@ mod r#impl {
 mod r#impl {
     use once_cell::sync::OnceCell;
     use std::ffi::OsStr;
-    use std::{env, iter, slice};
+    use std::{env, slice};
 
     static ARGV: OnceCell<Vec<&'static OsStr>> = OnceCell::new();
 
@@ -155,19 +155,18 @@ mod r#impl {
                 .map(|arg| -> &OsStr { Box::leak(arg.into_boxed_os_str()) })
                 .collect()
         });
-        let args = v.iter().copied();
-        Iter { args }
+        Iter { args: v.iter() }
     }
 
     pub struct Iter {
-        args: iter::Copied<slice::Iter<'static, &'static OsStr>>,
+        args: slice::Iter<'static, &'static OsStr>,
     }
 
     impl Iterator for Iter {
         type Item = &'static OsStr;
 
         fn next(&mut self) -> Option<Self::Item> {
-            self.args.next()
+            self.args.next().copied()
         }
 
         fn size_hint(&self) -> (usize, Option<usize>) {
