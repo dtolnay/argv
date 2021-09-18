@@ -139,6 +139,10 @@ mod r#impl {
             (self.end as usize - self.next as usize) / mem::size_of::<*const c_char>()
         }
     }
+
+    // Thread safe despite the raw pointers.
+    unsafe impl Send for Iter {}
+    unsafe impl Sync for Iter {}
 }
 
 #[cfg(any(not(target_os = "linux"), target_env = "musl"))]
