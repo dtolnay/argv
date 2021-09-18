@@ -151,7 +151,7 @@ mod r#impl {
     static mut ARGV: Vec<&'static OsStr> = Vec::new();
 
     pub fn iter() -> Iter {
-        ONCE.call_once_force(|_once_state| {
+        ONCE.call_once(|| {
             let argv = env::args_os()
                 .map(|arg| -> &OsStr { Box::leak(arg.into_boxed_os_str()) })
                 .collect();
