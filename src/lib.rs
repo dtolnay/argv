@@ -155,8 +155,29 @@ mod r#impl {
                 .map(|arg| -> &OsStr { Box::leak(arg.into_boxed_os_str()) })
                 .collect()
         });
-        v.iter().copied()
+        let args = v.iter().copied();
+        Iter { args }
     }
 
-    pub type Iter = iter::Copied<slice::Iter<'static, &'static OsStr>>;
+    pub struct Iter {
+        args: iter::Copied<slice::Iter<'static, &'static OsStr>>,
+    }
+
+    impl Iterator for Iter {
+        type Item = &'static OsStr;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            self.args.next()
+        }
+
+        fn size_hint(&self) -> (usize, Option<usize>) {
+            self.args.size_hint()
+        }
+    }
+
+    impl ExactSizeIterator for Iter {
+        fn len(&self) -> usize {
+            self.args.len()
+        }
+    }
 }
