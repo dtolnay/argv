@@ -143,19 +143,22 @@ mod r#impl {
 
 #[cfg(any(not(target_os = "linux"), target_env = "musl"))]
 mod r#impl {
-    use once_cell::sync::OnceCell;
     use std::ffi::OsStr;
+    use std::sync::Once;
     use std::{env, slice};
 
-    static ARGV: OnceCell<Vec<&'static OsStr>> = OnceCell::new();
+    static ONCE: Once = Once::new();
+    static mut ARGV: Vec<&'static OsStr> = Vec::new();
 
     pub fn iter() -> Iter {
-        let v = ARGV.get_or_init(|| {
-            env::args_os()
+        ONCE.call_once(|| {
+            let argv = env::args_os()
                 .map(|arg| -> &OsStr { Box::leak(arg.into_boxed_os_str()) })
-                .collect()
+                .collect();
+            unsafe { ARGV = argv }
         });
-        Iter { args: v.iter() }
+        let argv = unsafe { &ARGV };
+        Iter { args: argv.iter() }
     }
 
     pub struct Iter {
