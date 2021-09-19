@@ -149,7 +149,7 @@ mod r#impl {
 mod r#impl {
     use std::ffi::OsStr;
     use std::sync::Once;
-    use std::{env, slice};
+    use std::{env, iter, slice};
 
     static ONCE: Once = Once::new();
     static mut ARGV: Vec<&'static OsStr> = Vec::new();
@@ -162,30 +162,10 @@ mod r#impl {
             unsafe { ARGV = argv }
         });
         let argv = unsafe { &ARGV };
-        Iter { args: argv.iter() }
+        argv.iter().copied()
     }
 
-    pub(crate) struct Iter {
-        args: slice::Iter<'static, &'static OsStr>,
-    }
-
-    impl Iterator for Iter {
-        type Item = &'static OsStr;
-
-        fn next(&mut self) -> Option<Self::Item> {
-            self.args.next().copied()
-        }
-
-        fn size_hint(&self) -> (usize, Option<usize>) {
-            self.args.size_hint()
-        }
-    }
-
-    impl ExactSizeIterator for Iter {
-        fn len(&self) -> usize {
-            self.args.len()
-        }
-    }
+    pub(crate) type Iter = iter::Copied<slice::Iter<'static, &'static OsStr>>;
 }
 
 const _AUTO_TRAITS: () = {
