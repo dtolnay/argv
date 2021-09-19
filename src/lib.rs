@@ -96,7 +96,7 @@ mod r#impl {
         ARGV = argv;
     }
 
-    pub fn iter() -> Iter {
+    pub(crate) fn iter() -> Iter {
         // These are only mutated before main so they are safe to read once main
         // has begun.
         let argc = unsafe { ARGC };
@@ -109,7 +109,7 @@ mod r#impl {
         Iter { next: argv, end }
     }
 
-    pub struct Iter {
+    pub(crate) struct Iter {
         next: *const *const c_char,
         end: *const *const c_char,
     }
@@ -154,7 +154,7 @@ mod r#impl {
     static ONCE: Once = Once::new();
     static mut ARGV: Vec<&'static OsStr> = Vec::new();
 
-    pub fn iter() -> Iter {
+    pub(crate) fn iter() -> Iter {
         ONCE.call_once(|| {
             let argv = env::args_os()
                 .map(|arg| -> &OsStr { Box::leak(arg.into_boxed_os_str()) })
@@ -165,7 +165,7 @@ mod r#impl {
         Iter { args: argv.iter() }
     }
 
-    pub struct Iter {
+    pub(crate) struct Iter {
         args: slice::Iter<'static, &'static OsStr>,
     }
 
