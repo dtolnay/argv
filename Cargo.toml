@@ -8,6 +8,7 @@ repository = "https://github.com/dtolnay/argv"
 documentation = "https://docs.rs/argv"
 readme = "README.md"
 edition = "2018"
+rust-version = "1.33"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
