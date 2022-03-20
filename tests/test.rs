@@ -25,7 +25,16 @@ fn test() {
     #[cfg(any(target_os = "linux", target_os = "macos"))]
     let expected = format!("target/{}/debug/examples/print\na\nb\nc\n", TARGET);
     #[cfg(windows)]
-    let expected = format!("target\\{}\\debug\\examples\\print.exe\na\nb\nc\n", TARGET);
+    let expected = {
+        #[rustversion::since(1.61.0)]
+        const PREFIX: &str = concat!(r"\\?\", env!("CARGO_MANIFEST_DIR"), r"\target");
+        #[rustversion::before(1.61.0)]
+        const PREFIX: &str = "target";
+        format!(
+            "{}\\{}\\debug\\examples\\print.exe\na\nb\nc\n",
+            PREFIX, TARGET,
+        )
+    };
 
     let actual = String::from_utf8(output.stdout).unwrap();
     assert_eq!(actual, expected);
