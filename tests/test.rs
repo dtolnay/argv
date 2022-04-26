@@ -26,9 +26,9 @@ fn test() {
     let expected = format!("target/{}/debug/examples/print\na\nb\nc\n", TARGET);
     #[cfg(windows)]
     let expected = {
-        #[rustversion::since(1.61.0)]
+        #[rustversion::beta] // 1.61
         const PREFIX: &str = concat!(r"\\?\", env!("CARGO_MANIFEST_DIR"), r"\target");
-        #[rustversion::before(1.61.0)]
+        #[rustversion::not(beta)]
         const PREFIX: &str = "target";
         format!(
             "{}\\{}\\debug\\examples\\print.exe\na\nb\nc\n",
