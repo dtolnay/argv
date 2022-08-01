@@ -2,12 +2,12 @@
 name = "argv"
 version = "0.1.5"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
-license = "MIT OR Apache-2.0"
 description = "Command line arguments by reference: `Iterator<Item = &'static OsStr>`"
-repository = "https://github.com/dtolnay/argv"
 documentation = "https://docs.rs/argv"
-readme = "README.md"
 edition = "2018"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/dtolnay/argv"
 rust-version = "1.33"
 
 [dev-dependencies]
