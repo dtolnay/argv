@@ -7,7 +7,6 @@ description = "Command line arguments by reference: `Iterator<Item = &'static Os
 documentation = "https://docs.rs/argv"
 edition = "2018"
 license = "MIT OR Apache-2.0"
-readme = "README.md"
 repository = "https://github.com/dtolnay/argv"
 rust-version = "1.33"
 
