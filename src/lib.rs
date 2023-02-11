@@ -36,6 +36,7 @@
 #![doc(html_root_url = "https://docs.rs/argv/0.1.7")]
 #![allow(
     clippy::cast_sign_loss,
+    clippy::extra_unused_type_parameters,
     clippy::must_use_candidate,
     clippy::similar_names
 )]
