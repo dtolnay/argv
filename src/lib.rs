@@ -33,7 +33,7 @@
 //! implements the same API on other platforms as well, such as Windows, but
 //! leaks memory on platforms other than Linux and macOS.
 
-#![doc(html_root_url = "https://docs.rs/argv/0.1.8")]
+#![doc(html_root_url = "https://docs.rs/argv/0.1.9")]
 #![allow(
     clippy::cast_sign_loss,
     clippy::extra_unused_type_parameters,
