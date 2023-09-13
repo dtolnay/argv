@@ -39,6 +39,7 @@
     clippy::extra_unused_type_parameters,
     clippy::let_underscore_untyped,
     clippy::must_use_candidate,
+    clippy::needless_doctest_main,
     clippy::similar_names
 )]
 
