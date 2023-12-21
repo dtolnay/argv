@@ -12,6 +12,7 @@ rust-version = "1.33"
 
 [dev-dependencies]
 rustversion = "1.0"
+target-triple = "0.1"
 
 [lib]
 doc-scrape-examples = false
