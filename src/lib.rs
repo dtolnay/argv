@@ -97,8 +97,10 @@ mod r#impl {
     #[cfg_attr(target_os = "macos", link_section = "__DATA,__mod_init_func")]
     #[allow(dead_code)]
     unsafe extern "C" fn capture(argc: c_int, argv: *const *const c_char) {
-        ARGC = argc;
-        ARGV = argv;
+        unsafe {
+            ARGC = argc;
+            ARGV = argv;
+        }
     }
 
     pub(crate) fn iter() -> Iter {
