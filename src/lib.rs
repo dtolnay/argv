@@ -33,7 +33,7 @@
 //! implements the same API on other platforms as well, such as Windows, but
 //! leaks memory on platforms other than Linux and macOS.
 
-#![doc(html_root_url = "https://docs.rs/argv/0.1.9")]
+#![doc(html_root_url = "https://docs.rs/argv/0.1.10")]
 #![cfg_attr(not(no_unsafe_op_in_unsafe_fn_lint), deny(unsafe_op_in_unsafe_fn))]
 #![cfg_attr(no_unsafe_op_in_unsafe_fn_lint, allow(unused_unsafe))]
 #![allow(
