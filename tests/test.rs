@@ -1,7 +1,6 @@
 use std::io::{self, Write};
 use std::process::Command;
-
-include!(concat!(env!("OUT_DIR"), "/target.rs"));
+use target_triple::TARGET;
 
 #[test]
 fn test() {
