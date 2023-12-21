@@ -24,15 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust: [nightly, beta, stable]
+        rust: [nightly, beta, stable, 1.58.0]
         os: [ubuntu, macos, windows]
-        include:
-          - os: ubuntu
-            rust: 1.39.0
-          - os: macos
-            rust: 1.54.0  # Xcode 14 compatibility requires https://github.com/rust-lang/rust/pull/84449
-          - os: windows
-            rust: 1.39.0
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
