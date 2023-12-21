@@ -5,7 +5,7 @@ use target_triple::TARGET;
 #[test]
 fn test() {
     let output = Command::new("cargo")
-        .args(&[
+        .args([
             "run",
             "--example",
             "print",
