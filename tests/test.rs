@@ -22,9 +22,9 @@ fn test() {
     assert!(output.status.success());
 
     #[cfg(any(target_os = "linux", target_os = "macos"))]
-    let expected = format!("target/{}/debug/examples/print\na\nb\nc\n", TARGET);
+    let expected = format!("target/{TARGET}/debug/examples/print\na\nb\nc\n");
     #[cfg(windows)]
-    let expected = format!("target\\{}\\debug\\examples\\print.exe\na\nb\nc\n", TARGET);
+    let expected = format!("target\\{TARGET}\\debug\\examples\\print.exe\na\nb\nc\n");
 
     let actual = String::from_utf8(output.stdout).unwrap();
     assert_eq!(actual, expected);
