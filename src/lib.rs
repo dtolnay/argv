@@ -34,8 +34,7 @@
 //! leaks memory on platforms other than Linux and macOS.
 
 #![doc(html_root_url = "https://docs.rs/argv/0.1.10")]
-#![cfg_attr(not(no_unsafe_op_in_unsafe_fn_lint), deny(unsafe_op_in_unsafe_fn))]
-#![cfg_attr(no_unsafe_op_in_unsafe_fn_lint, allow(unused_unsafe))]
+#![deny(unsafe_op_in_unsafe_fn)]
 #![allow(
     clippy::cast_sign_loss,
     clippy::extra_unused_type_parameters,
