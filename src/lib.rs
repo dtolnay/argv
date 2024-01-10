@@ -155,7 +155,7 @@ mod r#impl {
 mod r#impl {
     use std::ffi::OsStr;
     use std::sync::Once;
-    use std::{env, iter, slice};
+    use std::{env, iter, ptr, slice};
 
     static ONCE: Once = Once::new();
     static mut ARGV: Vec<&'static OsStr> = Vec::new();
@@ -167,7 +167,7 @@ mod r#impl {
                 .collect();
             unsafe { ARGV = argv }
         });
-        let argv = unsafe { &ARGV };
+        let argv = unsafe { &*ptr::addr_of!(ARGV) };
         argv.iter().copied()
     }
 
