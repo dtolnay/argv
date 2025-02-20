@@ -13,8 +13,6 @@
 //! convenient for the arguments to be produced by static reference (`&'static
 //! OsStr`).
 //!
-//! [`std::env::args_os`]: https://doc.rust-lang.org/std/env/fn.args_os.html
-//!
 //! # Examples
 //!
 //! ```
