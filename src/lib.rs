@@ -122,7 +122,7 @@ mod r#impl {
         type Item = &'static OsStr;
 
         fn next(&mut self) -> Option<Self::Item> {
-            if self.next == self.end {
+            if ptr::eq(self.next, self.end) {
                 None
             } else {
                 let ptr = unsafe { *self.next };
