@@ -106,7 +106,15 @@ mod r#impl {
 
         // We count on the OS to provide argv for which argv + argc does not
         // overflow.
-        let end = unsafe { argv.offset(argc as isize) };
+        let max_end = unsafe { argv.offset(argc as isize) };
+
+        // Stop at the first null arg. Some C command-line parsers (including
+        // GTK's GLib and Qt's QCommandLineParser) erase already handled
+        // arguments from argv and leave null entries at the end.
+        let mut end = argv;
+        while end < max_end && !unsafe { *end }.is_null() {
+            end = unsafe { end.add(1) };
+        }
 
         Iter { next: argv, end }
     }
