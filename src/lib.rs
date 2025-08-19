@@ -26,10 +26,10 @@
 //!
 //! # Portability
 //!
-//! This crate is intended to be used on Linux and macOS, on which command line
-//! arguments naturally live for the duration of the program. This crate
-//! implements the same API on other platforms as well, such as Windows, but
-//! leaks memory on platforms other than Linux and macOS.
+//! This crate is intended to be used on Linux, where command line arguments
+//! naturally live for the duration of the program. This crate implements the
+//! same API on other platforms as well, such as Windows, but leaks memory on
+//! platforms other than Linux.
 
 #![doc(html_root_url = "https://docs.rs/argv/0.1.12")]
 #![deny(unsafe_op_in_unsafe_fn)]
@@ -90,8 +90,6 @@ mod r#impl {
     #[used]
     static CAPTURE: unsafe extern "C" fn(c_int, *const *const c_char) = capture;
 
-    // Disabled for now until we investigate https://github.com/dtolnay/argv/issues/1
-    #[cfg_attr(target_os = "macos", link_section = "__DATA,__mod_init_func")]
     #[allow(dead_code)]
     unsafe extern "C" fn capture(argc: c_int, argv: *const *const c_char) {
         unsafe {
