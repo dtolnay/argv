@@ -74,7 +74,7 @@ impl ExactSizeIterator for Iter {
     }
 }
 
-#[cfg(all(target_os = "linux", not(target_env = "musl"), not(miri)))]
+#[cfg(all(target_os = "linux", target_env = "gnu", not(miri)))]
 mod r#impl {
     use std::ffi::{CStr, OsStr};
     use std::mem;
@@ -147,7 +147,7 @@ mod r#impl {
     unsafe impl Sync for Iter {}
 }
 
-#[cfg(any(not(target_os = "linux"), target_env = "musl", miri))]
+#[cfg(any(not(target_os = "linux"), not(target_env = "gnu"), miri))]
 mod r#impl {
     use std::ffi::OsStr;
     use std::sync::Once;
