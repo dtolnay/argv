@@ -31,7 +31,7 @@
 //! same API on other platforms as well, such as Windows, but leaks memory on
 //! platforms other than Linux.
 
-#![doc(html_root_url = "https://docs.rs/argv/0.1.12")]
+#![doc(html_root_url = "https://docs.rs/argv/0.1.13")]
 #![deny(unsafe_op_in_unsafe_fn)]
 #![allow(
     clippy::cast_sign_loss,
