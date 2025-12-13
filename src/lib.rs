@@ -133,7 +133,7 @@ mod r#impl {
             } else {
                 let ptr = unsafe { *self.next };
                 let c_str = unsafe { CStr::from_ptr(ptr) };
-                self.next = unsafe { self.next.offset(1) };
+                self.next = unsafe { self.next.add(1) };
                 Some(OsStr::from_bytes(c_str.to_bytes()))
             }
         }
