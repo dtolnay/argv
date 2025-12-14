@@ -5,7 +5,7 @@ authors = ["David Tolnay <dtolnay@gmail.com>"]
 categories = ["command-line-interface"]
 description = "Command line arguments by reference: `Iterator<Item = &'static OsStr>`"
 documentation = "https://docs.rs/argv"
-edition = "2018"
+edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/dtolnay/argv"
 rust-version = "1.68"
