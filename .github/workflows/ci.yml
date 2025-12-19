@@ -37,6 +37,12 @@ jobs:
         if: matrix.rust == 'nightly'
         shell: bash
       - run: cargo test
+      - uses: actions/upload-artifact@v4
+        if: matrix.rust == 'nightly' && matrix.os == 'ubuntu' && always()
+        with:
+          name: Cargo.lock
+          path: Cargo.lock
+        continue-on-error: true
 
   musl:
     name: Rust with musl
