@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 use std::process::Command;
-use target_triple::TARGET;
+use target_tuple::TARGET;
 
 #[test]
 fn test() {
